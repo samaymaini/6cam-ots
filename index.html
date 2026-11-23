@@ -40,10 +40,6 @@ h2 { font-family: var(--display); font-weight: 600; font-size: 24px; margin: 0; 
 section { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 .head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
 .note { margin: 0; color: var(--muted); max-width: 70ch; }
-.diff { display: flex; height: 44px; border-radius: 8px; overflow: hidden; border: 1px solid var(--line); }
-.diff div { display: flex; align-items: center; padding: 0 14px; font-weight: 500; white-space: nowrap; overflow: hidden; }
-.diff .m { background: var(--accent-soft); color: var(--fg); }
-.diff .h { background: var(--hard-soft); color: var(--fg); }
 .legend { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 14px; }
 .legend span { display: inline-flex; align-items: center; gap: 8px; font-variant-numeric: tabular-nums; }
 .sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
@@ -82,7 +78,6 @@ footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line)
 
   <section id="difficulty">
     <div class="head"><h2>Task difficulty</h2></div>
-    <div class="diff" role="img" aria-label="58.3 percent hard, 41.7 percent medium" id="diff-bar"></div>
     <div class="legend" id="diff-legend"></div>
     <p class="note">Hard: skilled trade work where precision and training decide the result. Medium: multi-step work with tools or machines where technique matters, learned on the job.</p>
   </section>
@@ -149,11 +144,9 @@ document.getElementById('s-l1').textContent = String(DATA.l1.length);
 document.getElementById('s-l2').textContent = DATA.l2_distinct;
 document.getElementById('s-l3').textContent = String(DATA.l3.length);
 document.getElementById('s-diff').textContent = DATA.difficulty.map((d) => d.pct.toFixed(1)).join(' / ');
-const bar = document.getElementById('diff-bar');
 const leg = document.getElementById('diff-legend');
 DATA.difficulty.forEach((d) => {
   const cls = d.level === 'Hard' ? 'h' : 'm';
-  const seg = el('div', cls, d.level + ' ' + d.pct.toFixed(1) + '%'); seg.style.width = d.pct + '%'; bar.appendChild(seg);
   const s = el('span'); const sw = el('i', 'sw'); sw.style.background = cls === 'h' ? 'var(--hard-soft)' : 'var(--accent-soft)'; sw.style.border = '1px solid ' + (cls === 'h' ? 'var(--hard)' : 'var(--accent)');
   s.appendChild(sw); s.appendChild(document.createTextNode(d.level + ': ' + fmt(d.hours) + ' h (' + d.pct.toFixed(1) + '%)')); leg.appendChild(s);
 });
